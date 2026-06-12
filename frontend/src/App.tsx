@@ -39,9 +39,9 @@ function App() {
 
     try {
       const response = await axios.post(
-        "https://ai-resume-analyzer-api-fsn1.onrender.com/upload",
-        formData
-      );
+  "https://ai-resume-analyzer-api-fsn1.onrender.com/upload",
+  formData
+);
 
       setMatchScore(response.data.match_score);
       setMatchedSkills(response.data.matched_skills);
