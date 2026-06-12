@@ -12,17 +12,10 @@ function App() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
 
-  const [matchScore, setMatchScore] =
-    useState<number | null>(null);
-
-  const [matchedSkills, setMatchedSkills] =
-    useState<string[]>([]);
-
-  const [missingSkills, setMissingSkills] =
-    useState<string[]>([]);
-
-  const [suggestions, setSuggestions] =
-    useState<string[]>([]);
+  const [matchScore, setMatchScore] = useState<number | null>(null);
+  const [matchedSkills, setMatchedSkills] = useState<string[]>([]);
+  const [missingSkills, setMissingSkills] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -41,36 +34,22 @@ function App() {
     }
 
     const formData = new FormData();
-
     formData.append("file", file);
-    formData.append(
-      "job_description",
-      jobDescription
-    );
+    formData.append("job_description", jobDescription);
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/upload",
+        "https://ai-resume-analyzer-api-fsn1.onrender.com/upload",
         formData
       );
 
-      setMatchScore(
-        response.data.match_score
-      );
-
-      setMatchedSkills(
-        response.data.matched_skills
-      );
-
-      setMissingSkills(
-        response.data.missing_skills
-      );
-
-      setSuggestions(
-        response.data.suggestions
-      );
+      setMatchScore(response.data.match_score);
+      setMatchedSkills(response.data.matched_skills);
+      setMissingSkills(response.data.missing_skills);
+      setSuggestions(response.data.suggestions);
     } catch (error) {
       console.error(error);
+      alert("Backend connection failed");
     }
   };
 
@@ -92,9 +71,7 @@ function App() {
           label="Paste Job Description"
           value={jobDescription}
           onChange={(e) =>
-            setJobDescription(
-              e.target.value
-            )
+            setJobDescription(e.target.value)
           }
           sx={{ mb: 3 }}
         />
@@ -131,13 +108,9 @@ function App() {
             </Typography>
 
             <ul>
-              {matchedSkills.map(
-                (skill, index) => (
-                  <li key={index}>
-                    {skill}
-                  </li>
-                )
-              )}
+              {matchedSkills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
             </ul>
 
             <Typography sx={{ mt: 2 }}>
@@ -145,13 +118,9 @@ function App() {
             </Typography>
 
             <ul>
-              {missingSkills.map(
-                (skill, index) => (
-                  <li key={index}>
-                    {skill}
-                  </li>
-                )
-              )}
+              {missingSkills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
             </ul>
 
             <Typography sx={{ mt: 2 }}>
@@ -159,13 +128,9 @@ function App() {
             </Typography>
 
             <ul>
-              {suggestions.map(
-                (suggestion, index) => (
-                  <li key={index}>
-                    {suggestion}
-                  </li>
-                )
-              )}
+              {suggestions.map((suggestion, index) => (
+                <li key={index}>{suggestion}</li>
+              ))}
             </ul>
           </Paper>
         )}
